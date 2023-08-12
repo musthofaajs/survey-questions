@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Button,
-  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
+  IconButton,
   InputLabel,
-  Select,
   MenuItem,
+  Select,
+  TextField,
 } from '@mui/material';
 import { styled } from '@mui/system';
+import React, { useEffect, useState } from 'react';
 import { QuestionItem } from './QuestionList';
+import { Delete } from '@mui/icons-material';
 
 interface QuestionEditModalProps {
   open: boolean;
@@ -65,6 +67,21 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
       }));
     }
   };
+  const handleAddOption = () => {
+    if (editedQuestion) {
+      const updatedOptions = [...editedQuestion.options];
+      updatedOptions.push({ rule: 'May Select', answer: '' });
+      setEditedQuestion((prev) => ({ ...prev!, options: updatedOptions }));
+    }
+  };
+
+  const handleRemoveOption = (index: number) => {
+    if (editedQuestion && editedQuestion.options.length > 1) {
+      const updatedOptions = [...editedQuestion.options];
+      updatedOptions.splice(index, 1);
+      setEditedQuestion((prev) => ({ ...prev!, options: updatedOptions }));
+    }
+  };
 
   const handleSave = () => {
     if (editedQuestion) {
@@ -85,6 +102,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
               onChange={(e) =>
                 setEditedQuestion((prev) => ({ ...prev!, question: e.target.value }))
               }
+              required
               fullWidth
               margin="dense"
             />
@@ -107,10 +125,23 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                   value={option.answer}
                   onChange={(e) => handleOptionChange(index, 'answer', e.target.value)}
                   fullWidth
+                  required
                   margin="dense"
                 />
+                {editedQuestion.options.length > 1 && (
+                  <IconButton onClick={() => handleRemoveOption(index)}>
+                    <Delete />
+                  </IconButton>
+                )}
               </OptionContainer>
             ))}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleAddOption}
+            >
+              Add Option
+            </Button>
           </FormContainer>
         )}
       </DialogContent>
