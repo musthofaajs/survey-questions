@@ -46,6 +46,10 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ onSubmit }) => {
     setOptions([{ rule: 'May Select', answer: '' }]);
   };
 
+  const handleAddOption = () => {
+    setOptions([...options, { rule: 'May Select', answer: '' }]);
+  };
+
   return (
     <FormContainer onSubmit={handleSubmit}>
       <TextField
@@ -77,6 +81,9 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ onSubmit }) => {
           />
         </div>
       ))}
+      <Button variant="outlined" color="primary" onClick={handleAddOption}>
+        Add Option
+      </Button>
       <Button type="submit" variant="contained" color="primary">
         Submit
       </Button>
