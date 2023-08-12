@@ -1,27 +1,80 @@
-# React + TypeScript + Vite
+# Survey Questions App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple React application for creating and managing survey questions.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Overview](#overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
 
-## Expanding the ESLint configuration
+## Overview
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+The Survey Questions App is a user-friendly application that allows users to create and manage survey questions. Users can add questions along with multiple respondent options and save them to a list. The application provides a convenient way to edit, delete, and rearrange questions using a drag-and-drop interface.
 
-- Configure the top-level `parserOptions` property like this:
+## Features
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+- Create survey questions with options and rules.
+- Save questions to localStorage for data persistence.
+- Edit and delete existing questions.
+- Rearrange questions using drag-and-drop functionality.
+- Simple and intuitive user interface.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Technologies Used
+
+- React
+- Vite
+- TypeScript
+- Material-UI
+- Styled Components
+- react-beautiful-dnd
+
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16.13 or higher)
+- Yarn or NPM
+
+### Installation
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/musthofaajs/survey-questions
+   ```
+
+2. Clone the repository:
+
+   ```sh
+   cd survey-questions-app
+   ```
+
+3. Install dependencies using Yarn or NPM:
+
+   ```sh
+   yarn
+   ```
+   or
+   ```sh
+   npm i
+   ```
+
+### Usage
+
+1. Start the development server:
+
+   ```sh
+   yarn dev
+   ```
+   or
+   ```sh
+   npm run dev
+   ```
+2. Open your browser and navigate to http://localhost:5173.
+3. Use the application to create, edit, and manage survey questions.
