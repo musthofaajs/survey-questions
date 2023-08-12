@@ -19,7 +19,7 @@ interface QuestionListProps {
   onDelete: (id: number) => void;
   onEdit: (id: number) => void;
   onDragStart: (id: number) => void;
-  onDragEnd: () => void;
+  onDragEnd?: () => void;
 }
 
 const QuestionList: React.FC<QuestionListProps> = ({
@@ -48,8 +48,8 @@ const QuestionList: React.FC<QuestionListProps> = ({
                   ref={providedDraggable.innerRef}
                   {...providedDraggable.draggableProps}
                   {...providedDraggable.dragHandleProps}
-                  onDragStart={() => handleDragStart(question.id)} // <-- Call handleDragStart
-                  onDragEnd={onDragEnd} // <-- Pass onDragEnd directly
+                  onDragStart={() => handleDragStart(question.id)}
+                  onDragEnd={onDragEnd}
                 >
                   <ListItemText primary={question.question} />
                   <IconButton onClick={() => onEdit(question.id)}>

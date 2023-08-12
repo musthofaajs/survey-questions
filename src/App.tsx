@@ -3,6 +3,7 @@ import { Container, CssBaseline, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import QuestionForm from './components/QuestionForm';
 import QuestionList from './components/QuestionList';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 const AppContainer = styled(Container)`
   display: flex;
@@ -32,8 +33,14 @@ const App: React.FC = () => {
     setDraggedQuestionId(id);
   };
 
-  const handleDragEnd = () => {
+  const handleDragEnd = (result: DropResult) => {
     setDraggedQuestionId(null);
+    if (!result.destination) return;
+    const reorderedQuestions = Array.from(questions);
+    const [movedQuestion] = reorderedQuestions.splice(result.source.index, 1);
+    reorderedQuestions.splice(result.destination.index, 0, movedQuestion);
+
+    setQuestions(reorderedQuestions);
   };
 
   return (
@@ -41,13 +48,14 @@ const App: React.FC = () => {
       <CssBaseline />
       <Typography variant="h4">Survey Questions</Typography>
       <QuestionForm onSubmit={handleQuestionSubmit} />
-      <QuestionList
-        questions={questions}
-        onDelete={handleQuestionDelete}
-        onEdit={handleQuestionEdit}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      />
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <QuestionList
+          questions={questions}
+          onDelete={handleQuestionDelete}
+          onEdit={handleQuestionEdit}
+          onDragStart={handleDragStart}
+        />
+      </DragDropContext>
     </AppContainer>
   );
 };
