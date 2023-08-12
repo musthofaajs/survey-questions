@@ -1,10 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const handleDragEnd = (result: DropResult) => {
+  console.log('DnD result : ', result)
+};
+
+ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <App />
+    </DragDropContext>
   </React.StrictMode>,
-)
+  document.getElementById('root')
+);
