@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { Container, CssBaseline, Typography } from '@mui/material';
+import { styled } from '@mui/system';
+import QuestionForm from './components/QuestionForm';
 
-function App() {
-  const [count, setCount] = useState(0)
+const AppContainer = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-top: 40px;
+`;
+
+const App: React.FC = () => {
+  const [questions, setQuestions] = useState<Array<{ id: number; question: string; options: Array<{ rule: string; answer: string }> }>>([]);
+
+  const handleQuestionSubmit = (formData: { question: string; options: Array<{ rule: string; answer: string }> }) => {
+    setQuestions([...questions, { id: Date.now(), ...formData }]);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <AppContainer>
+      <CssBaseline />
+      <Typography variant="h4">Survey Questions</Typography>
+      <QuestionForm onSubmit={handleQuestionSubmit} />
+    </AppContainer>
+  );
+};
 
-export default App
+export default App;
