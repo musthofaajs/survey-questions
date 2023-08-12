@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Button,
   FormControl,
+  FormHelperText,
   IconButton,
   InputLabel,
   MenuItem,
@@ -41,6 +42,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ onSubmit }) => {
   const [options, setOptions] = useState<Option[]>([
     { rule: 'May Select', answer: '' },
   ]);
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleOptionChange = (
     index: number,
@@ -68,10 +70,26 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ onSubmit }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const formData = { question, options };
-    onSubmit(formData);
-    setQuestion('');
-    setOptions([{ rule: 'May Select', answer: '' }]);
+    const newErrors: string[] = [];
+
+    if (question.trim() === '') {
+      newErrors.push('Question field is required.');
+    }
+
+    options.forEach((option, index) => {
+      if (option.answer.trim() === '') {
+        newErrors.push(`Answer for option ${index + 1} is required.`);
+      }
+    });
+
+    if (newErrors.length === 0) {
+      const formData = { question, options };
+      onSubmit(formData);
+      setQuestion('');
+      setOptions([{ rule: 'May Select', answer: '' }]);
+    } else {
+      setErrors(newErrors);
+    }
   };
 
   return (
@@ -114,6 +132,11 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ onSubmit }) => {
             </IconButton>
           )}
         </OptionContainer>
+      ))}
+      {errors.map((error, index) => (
+        <FormHelperText key={index} error>
+          {error}
+        </FormHelperText>
       ))}
       <Button
         type="button"
