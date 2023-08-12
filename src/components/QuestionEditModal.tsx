@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  FormHelperText,
   IconButton,
   InputLabel,
   MenuItem,
@@ -46,6 +47,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
   onSave,
 }) => {
   const [editedQuestion, setEditedQuestion] = useState<QuestionItem | null>(null);
+  const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
     if (question) {
@@ -82,10 +84,24 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
       setEditedQuestion((prev) => ({ ...prev!, options: updatedOptions }));
     }
   };
-
   const handleSave = () => {
-    if (editedQuestion) {
-      onSave(editedQuestion);
+    const newErrors: string[] = [];
+
+    if (!editedQuestion || editedQuestion.question.trim() === '') {
+      newErrors.push('Question field is required.');
+    }
+
+    editedQuestion?.options.forEach((option, index) => {
+      if (option.answer.trim() === '') {
+        newErrors.push(`Answer for option ${index + 1} is required.`);
+      }
+    });
+
+    if (newErrors.length === 0) {
+      onSave(editedQuestion!);
+      setErrors([]);
+    } else {
+      setErrors(newErrors);
     }
   };
 
@@ -134,6 +150,11 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                   </IconButton>
                 )}
               </OptionContainer>
+            ))}
+            {errors.map((error, index) => (
+              <FormHelperText key={index} error>
+                {error}
+              </FormHelperText>
             ))}
             <Button
               variant="contained"

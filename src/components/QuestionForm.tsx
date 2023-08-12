@@ -87,6 +87,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ onSubmit }) => {
       onSubmit(formData);
       setQuestion('');
       setOptions([{ rule: 'May Select', answer: '' }]);
+      setErrors([]);
     } else {
       setErrors(newErrors);
     }
