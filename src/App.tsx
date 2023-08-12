@@ -15,7 +15,6 @@ const AppContainer = styled(Container)`
 
 const App: React.FC = () => {
   const [questions, setQuestions] = useState<QuestionItem[]>([]);
-  const [draggedQuestionId, setDraggedQuestionId] = useState<number | null>(null);
 
   const handleQuestionSubmit = (formData: { question: string; options: Option[] }) => {
     setQuestions([...questions, { id: Date.now(), ...formData }]);
@@ -25,16 +24,14 @@ const App: React.FC = () => {
     setQuestions(questions.filter((question) => question.id !== id));
   };
 
-  const handleQuestionEdit = (id: number) => {
-    // 
-  };
-
-  const handleDragStart = (id: number) => {
-    setDraggedQuestionId(id);
+  const handleQuestionEdit = (id: number, updatedQuestion: QuestionItem) => {
+    const updatedQuestions = questions.map((question) =>
+      question.id === id ? updatedQuestion : question
+    );
+    setQuestions(updatedQuestions);
   };
 
   const handleDragEnd = (result: DropResult) => {
-    setDraggedQuestionId(null);
     if (!result.destination) return;
     const reorderedQuestions = Array.from(questions);
     const [movedQuestion] = reorderedQuestions.splice(result.source.index, 1);
@@ -53,7 +50,6 @@ const App: React.FC = () => {
           questions={questions}
           onDelete={handleQuestionDelete}
           onEdit={handleQuestionEdit}
-          onDragStart={handleDragStart}
         />
       </DragDropContext>
     </AppContainer>
